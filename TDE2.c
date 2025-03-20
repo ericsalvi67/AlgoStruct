@@ -53,6 +53,8 @@ int main()
     actual = insert_sorted(&actual,"Joao");
     actual = insert_sorted(&actual,"Paulo");
     show_list(actual);
+    actual = insert_sorted(&actual,"Eric");
+    show_list(actual);
     
     return  0;
 }
