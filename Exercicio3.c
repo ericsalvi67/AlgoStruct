@@ -1,21 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 typedef struct elemento {
  int info;
  struct elemento *prox;
 }Elemento;
 
-void insert_firstOnly(Elemento **inicio, int valor)
+Elemento * insert_firstOnly(Elemento *inicio, int valor)
 {
     Elemento *novo;
-    *inicio = NULL;
     
     novo = (Elemento*) malloc(sizeof(Elemento));
     novo->info = valor;
     novo->prox = NULL;
     inicio = novo;
+
+    return inicio;
 }
 
 Elemento* insert_first(Elemento **inicio, int valor)
@@ -25,11 +25,13 @@ Elemento* insert_first(Elemento **inicio, int valor)
     novo->info = valor;
     novo->prox = *inicio;
     *inicio = novo;
+
+    return *inicio;
 }
 
-void insert_last(Elemento **inicio, int valor)
+void insert_last(Elemento *inicio, int valor)
 {
-    Elemento *novo, *aux=*inicio;
+    Elemento *novo, *aux=inicio;
     novo = (Elemento*) malloc(sizeof(Elemento));
     novo->info = valor;
     novo->prox = NULL;
@@ -37,10 +39,13 @@ void insert_last(Elemento **inicio, int valor)
         aux = aux->prox;
     }
     aux->prox = novo;
+
+
+    return inicio;
 }
 
 
-void  insert_sorted(Elemento **inicio, int valor)
+Elemento *  insert_sorted(Elemento **inicio, int valor)
 {
     Elemento *novo, *aux = *inicio, *ant = NULL;
     novo = (Elemento*) malloc(sizeof(Elemento));
@@ -60,8 +65,9 @@ void  insert_sorted(Elemento **inicio, int valor)
         novo->prox = ant->prox;
         ant->prox = novo;
     }
-}
 
+    return *inicio;
+}
 void show_list(Elemento *inicio)
 {
     Elemento *aux = inicio;
@@ -75,15 +81,15 @@ void show_list(Elemento *inicio)
 
 int main()
 {
-    Elemento *inicio; 
-    inicio = NULL;
-    insert_sorted(&inicio, 5);
+    Elemento *inicio = NULL;
+    inicio =insert_sorted(&inicio,5);
     show_list(&inicio);
-    insert_sorted(&inicio, 3);
-    insert_sorted(&inicio, 7);
-    insert_sorted(&inicio, 1);
+    inicio =insert_sorted(&inicio,3);
+    inicio =insert_sorted(&inicio,7);
+    inicio =insert_sorted(&inicio,1);
+    show_list(&inicio);
 
-    inicio = insert_first(inicio, 5);
+    inicio = insert_first(&inicio,5);
 
     free(inicio);
     return 0;

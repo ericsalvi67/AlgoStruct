@@ -15,7 +15,7 @@ NAMES * insert_sorted(NAMES **actual, char *value)
     
     strcpy(new->name,value);
     
-    while (aux != NULL && strcmp(aux->name,value))
+    while (aux != NULL && strcmp(aux->name,value) < 0)
     {
         prev = aux;
         aux = aux->prox;
@@ -43,6 +43,11 @@ void show_list(NAMES *actual)
         printf("%s\n",aux->name);
         aux = aux->prox;
     }
+}
+
+NAMES * remove_names(NAMES *actual, char position)
+{
+    
 }
 
 
