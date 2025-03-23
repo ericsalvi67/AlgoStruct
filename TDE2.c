@@ -38,6 +38,7 @@ NAMES * insert_sorted(NAMES **actual, char *value)
 void show_list(NAMES *actual)
 {
     NAMES *aux = actual;
+    printf("------------------------------------------------------------------\n");
     while (aux != NULL)
     {
         printf("%s\n",aux->name);
@@ -47,7 +48,33 @@ void show_list(NAMES *actual)
 
 NAMES * remove_names(NAMES *actual, char position)
 {
+    NAMES *aux = actual, *prev = NULL;
+    int i=1;
+
+    while (aux != NULL && i != position)
+    {
+        prev = aux;
+        aux = aux->prox;
+        i++;
+    }
     
+    if(position == 1)
+    {
+        actual = aux->prox;
+        free(aux);
+    }
+    else if(aux->prox == NULL)
+    {
+        prev->prox = NULL;
+        free(aux);
+    }
+    else
+    {
+        prev->prox = aux->prox;
+        free(aux);
+    }
+
+    return actual;
 }
 
 
@@ -60,6 +87,9 @@ int main()
     show_list(actual);
     actual = insert_sorted(&actual,"Eric");
     show_list(actual);
+    actual = remove_names(actual,1);
+    show_list(actual);
+    
     
     return  0;
 }
