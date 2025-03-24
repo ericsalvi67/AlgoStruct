@@ -86,8 +86,9 @@ int main()
     actual = insert_sorted(&actual,"Paulo");
     show_list(actual);
     actual = insert_sorted(&actual,"Eric");
+    actual = insert_sorted(&actual,"Ana");
     show_list(actual);
-    actual = remove_names(actual,1);
+    actual = remove_names(actual,4);
     show_list(actual);
     
     
