@@ -1,61 +1,93 @@
-//Implementar a operação de inversão de uma lista encadeada simples (inverter sem criar uma segunda lista).
-
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct elemento {
- int info;
- struct elemento *prox;
-}Elemento;
+typedef struct Lista {
+ int valor;
+ struct Lista *prox, *ant;
+}Lista;
 
-Elemento* insert_first(Elemento **inicio, int valor)
-{   
+typedef struct Header{
+    Lista *inicio;
+    Lista *fim;
+    int tamanho;
+}Header;
 
-    if((*inicio)->prox != *inicio)
-    {
-        *inicio = (Elemento*) malloc(sizeof(Elemento));
-        (*inicio)->info = valor;
-        (*inicio)->prox = *inicio;
-    }
-    else 
-    {
-        Elemento *novo;
-        novo = (Elemento*) malloc(sizeof(Elemento));
-        novo->info = valor;
-        novo->prox = *inicio;
-        *inicio = novo;
-    }
-    
-    return *inicio;
-}
+void escreveListas(Lista *inicio){
 
-
-void escreveListas(Elemento *inicio){
-
-   Elemento *temp = inicio;
+   Lista *temp = inicio;
    do 
    {
-       printf("endereco: %p valor: %d proximo: %p\n\n\n", temp, temp->info, temp->prox);
+       printf("endereco: %p \n\nanterior: %p \nvalor: %d \nproximo: %p\n\n\n", temp,temp->ant, temp->valor, temp->prox);
        temp = temp->prox;
    }while(temp != inicio);
 
    printf("\n\n");
 }
 
+void insereEricSalvi(Lista **inicio, int valor)
+{
+    Lista *novo = (Lista*) malloc(sizeof(Lista));
+
+    novo->valor = valor;
+    novo->prox = NULL;
+    novo->ant = NULL;
+
+    if((*inicio) == NULL)
+    {
+        *inicio = novo;
+        (*inicio)->prox = novo;
+        (*inicio)->ant = novo;
+        return;
+    }
+ 
+    Lista *temp = *inicio;
+
+    while(temp->prox != *inicio)
+    {
+        temp = temp->prox;
+    }
+
+    temp->prox = novo;
+    novo->prox = *inicio;
+    novo->ant = temp;
+
+
+}
+
+void escrevenormal(Lista *inicio){
+
+   Lista *temp = inicio;
+   do 
+   {
+       printf("valor: %d \n", temp->valor);
+       temp = temp->prox;
+   }while(temp != inicio);
+
+   printf("\n\n");
+}
+
+
+void linha()
+{
+    printf("--------------------------------------------\n");
+}
+
 int main()
 {
-    Elemento *inicio = NULL;
+    Lista *inicio = NULL;
+    Lista *fim = NULL;
 
-    inicio = insert_first(&inicio, 5);
-    inicio = insert_first(&inicio, 7);
-    inicio = insert_first(&inicio, 3);
-    inicio = insert_first(&inicio, 16);
-    inicio = insert_first(&inicio, 4);
-    inicio = insert_first(&inicio, 9);
-    inicio = insert_first(&inicio, 1);
+    insereEricSalvi(&inicio, &fim, 1);
     escreveListas(inicio);
+    linha();
+    insereEricSalvi(&inicio, &fim, 2);
+    escreveListas(inicio);
+    linha();
+    insereEricSalvi(&inicio, &fim, 3);
+    escreveListas(inicio);
+    linha();
+    escrevenormal(inicio);
 
     free(inicio);
-    return 0;   
-
+    return 0;
 }

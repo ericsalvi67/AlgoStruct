@@ -1,91 +1,57 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-typedef struct elemento {
- int info;
- struct elemento *prox;
-}Elemento;
+typedef struct Lista {
+ int valor;
+ struct Lista *prox;
+}Lista;
 
-Elemento *  insert_sorted(Elemento **inicio, int valor)
+void escreveListas(Lista *inicio){
+
+   Lista *temp = inicio;
+   do 
+   {
+       printf("endereco: %p valor: %d proximo: %p\n\n", temp, temp->valor, temp->prox);
+       temp = temp->prox;
+   }while(temp != inicio);
+
+   printf("\n\n");
+}
+
+void insereEricSalvi(Lista **inicio, int valor)
 {
-    Elemento *novo, *aux = *inicio, *ant = NULL;
-    novo = (Elemento*) malloc(sizeof(Elemento));
-    novo->info = valor;
-    while (aux != NULL && aux->info < valor)
+    Lista *novo = (Lista*) malloc(sizeof(Lista));
+
+    novo->valor = valor;
+    novo->prox = NULL;
+
+    if((*inicio) == NULL)
     {
-        ant = aux;
-        aux = aux->prox;
-    }
-    if (ant == NULL)
-    {
-        novo->prox = *inicio;
         *inicio = novo;
+        (*inicio)->prox = novo;
+        return;
     }
-    else
+ 
+    Lista *temp = *inicio;
+
+    while(temp->prox != *inicio)
     {
-        novo->prox = ant->prox;
-        ant->prox = novo;
+        temp = temp->prox;
     }
 
-    return *inicio;
+    temp->prox = novo;
+    novo->prox = *inicio;
+
 }
-void show_list(Elemento *inicio)
-{
-    Elemento *aux = inicio;
-    while (aux != NULL)
-    {
-        printf("%d\n",aux->info);
-        aux = aux->prox;
-    }
-}
-
-void invert_list(Elemento **inicio)
-{
-    Elemento *aux = *inicio;
-    Elemento *temp = NULL;
-    *inicio = (*inicio)->prox;
-    aux->prox = NULL;
-
-    while (inicio != NULL)
-    {
-        temp = *inicio;
-        *inicio = (*inicio)->prox;
-        temp->prox = aux;
-        aux = temp;
-    }
-    *inicio = aux;
-    
-}
-
-void lst_imprime_rec (Elemento* lst)
-{
-    //recursividade com exibicao normal
-    // if ( !lst == NULL ) 
-    // {
-    //     printf("info: %d\n",lst->info);
-    //     lst_imprime_rec(lst->prox);
-        
-    // }
-
-    //recursividade com exibicao inversa
-    if ( !lst == NULL ) 
-    {
-        lst_imprime_rec(lst->prox);
-        printf("info: %d\n",lst->info);
-    }
-}
-
 
 int main()
 {
-    Elemento *inicio = NULL;
-    inicio = insert_sorted(&inicio,1);
-    inicio = insert_sorted(&inicio,2);
-    inicio = insert_sorted(&inicio,3);
-    //show_list(&inicio);
-    // invert_list(&inicio);
-    // show_list(inicio);
-    lst_imprime_rec(inicio);
+    Lista *inicio = NULL;
+    insereEricSalvi(&inicio,1);
+    insereEricSalvi(&inicio,2);
+    insereEricSalvi(&inicio,3);
+    escreveListas(inicio);
 
     free(inicio);
     return 0;
