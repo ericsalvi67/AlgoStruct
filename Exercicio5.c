@@ -75,15 +75,14 @@ void linha()
 int main()
 {
     Lista *inicio = NULL;
-    Lista *fim = NULL;
 
-    insereEricSalvi(&inicio, &fim, 1);
+    insereEricSalvi(&inicio, 1);
     escreveListas(inicio);
     linha();
-    insereEricSalvi(&inicio, &fim, 2);
+    insereEricSalvi(&inicio, 2);
     escreveListas(inicio);
     linha();
-    insereEricSalvi(&inicio, &fim, 3);
+    insereEricSalvi(&inicio, 3);
     escreveListas(inicio);
     linha();
     escrevenormal(inicio);
