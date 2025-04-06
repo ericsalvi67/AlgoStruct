@@ -35,7 +35,7 @@ void inseresequencial(Header *h, char letra)
       (h->inicio)->prox = novo;
       (h->inicio)->ant = novo;
       h->fim = novo;
-      h->tamanho++;
+      if(letra != ' ') h->tamanho++;
       return;
    }
 
@@ -49,7 +49,7 @@ void inseresequencial(Header *h, char letra)
    novo->ant = temp;
    (h->inicio)->ant = novo;
    h->fim = novo;
-   h->tamanho++;
+   if(letra != ' ') h->tamanho++;
 }
 
 void mostraLista(Header *h)
