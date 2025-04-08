@@ -150,10 +150,6 @@ int main()
 
    verificaPalindrome(ehpalindrome(&h));
 
-   //remomeletra(&h, 1);
-
-
-
    free(h.inicio);
    free(h.fim);
 }
