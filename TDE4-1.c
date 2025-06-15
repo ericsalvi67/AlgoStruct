@@ -95,11 +95,49 @@ void insereFolha(No** raiz, int valor){
     }
 }
 
-void imprimirEmOrdem(No* raiz) {
+No* removeFolha(No* raiz, int valor) {
+    if (raiz == NULL) return NULL;
+
+    if (valor < raiz->valor) {
+        raiz->esq = removeFolha(raiz->esq, valor);
+    } else if (valor > raiz->valor) {
+        raiz->dir = removeFolha(raiz->dir, valor);
+    } else {
+        // Nó encontrado
+        if (raiz->esq == NULL && raiz->dir == NULL) {
+            // Folha
+            free(raiz);
+            return NULL;
+        } else if (raiz->esq == NULL) {
+            No* temp = raiz->dir;
+            free(raiz);
+            return temp;
+        } else if (raiz->dir == NULL) {
+            No* temp = raiz->esq;
+            free(raiz);
+            return temp;
+        } else {
+            // Dois filhos
+            No* sucessor = raiz->dir;
+            while (sucessor->esq != NULL) {
+                sucessor = sucessor->esq;
+            }
+            raiz->valor = sucessor->valor;
+            raiz->dir = removeFolha(raiz->dir, sucessor->valor);
+        }
+    }
+
+    return raiz;
+}
+
+
+int pesquisaFolha(No* raiz, int valor) {
     if (raiz != NULL) {
-        imprimirEmOrdem(raiz->esq);
-        printf("%d ", raiz->valor);
-        imprimirEmOrdem(raiz->dir);
+        if(raiz->valor == valor) {
+            return 1;
+        }
+        pesquisaFolha(raiz->esq,valor);
+        pesquisaFolha(raiz->dir,valor);
     }
 }
 // --------------------------------------------------------------------------------
@@ -131,13 +169,14 @@ void menu(No** raiz) {
     int valor;
     char tipo;
     int soma;
+    int bool;
 
     do
     {
         printf("Menu de Opcoes:\n");
         printf("1. Inserir Folha\n");
-        printf("2. Mostar arvore\n");
-        printf("3. Remove folha\n");
+        printf("2. Remove folha\n");
+        printf("3. Pesquisa folha\n");
         printf("4. Pre-ordem\n");
         printf("5. Central\n");
         printf("6. Pos-ordem\n");
@@ -150,23 +189,28 @@ void menu(No** raiz) {
 
         switch (opcao) {
             case 1: {
-                printf("Digite o valor a ser inserido: ");
+                printf("\nDigite o valor a ser inserido: ");
                 scanf("%d", &valor);
                 insereFolha(raiz, valor);
                 break;
             }
             case 2:
-                printf("Arvore em ordem: ");
-                imprimirEmOrdem(*raiz);
-                printf("\n");
+                printf("\nDigite o valor a ser removido: ");
+                scanf("%d", &valor);
+                *raiz = removeFolha(*raiz, valor);
                 break;
             case 3:
-                printf("Digite o valor a ser removido: ");
+                printf("\nDigite um valor a ser encontrado: ");
                 scanf("%d", &valor);
-                //removeFolha(raiz, valor);
+                bool = pesquisaFolha(*raiz, valor);
+                if(bool) {
+                    printf("Valor %d encontrado na arvore.", valor);
+                } else {
+                    printf("Valor %d nao encontrado na arvore.", valor);
+                }
                 break;
             case 4:
-                printf("Pre-ordem (E/D): ");
+                printf("\nPre-ordem (E/D): ");
                 scanf(" %c", &tipo);
                 if(tipo == 'E' || tipo == 'e') {
                     printf("Pre-ordem (Esquerda): ");
@@ -179,7 +223,7 @@ void menu(No** raiz) {
                 }
                 break;
             case 5:
-                printf("Central (E/D): ");
+                printf("\nCentral (E/D): ");
                 scanf(" %c", &tipo);
                 if(tipo == 'E' || tipo == 'e') {
                     printf("Central (Esquerda): ");
@@ -192,7 +236,7 @@ void menu(No** raiz) {
                 }
                 break;
             case 6:
-                printf("Pos-ordem (E/D): ");
+                printf("\nPos-ordem (E/D): ");
                 scanf(" %c", &tipo);
                 if(tipo == 'E' || tipo == 'e') {
                     printf("Pos-ordem (Esquerda): ");
@@ -205,7 +249,7 @@ void menu(No** raiz) {
                 }
                 break;
             case 7:
-                printf("Mostra arvore:\n");
+                printf("\nMostra arvore:\n");
                 printf("Pre-ordem (Esquerda): ");
                 preOrdemE(*raiz);
                 printf("\nCentral (Esquerda): ");
@@ -220,11 +264,11 @@ void menu(No** raiz) {
                 posOrdemD(*raiz);
                 break;
             case 8:
-                printf("Folhas decrescente: ");
+                printf("\nFolhas decrescente: ");
                 folha(*raiz);
                 break;
             case 9:
-                printf("Soma das folhas: ");
+                printf("\nSoma das folhas: ");
                 folha(*raiz);
                 soma = somaFolhas(*raiz);
                 printf("\nSoma: %d\n", soma);
@@ -232,7 +276,7 @@ void menu(No** raiz) {
             case 0:
                 exit(0);
             default:
-                printf("Opcao invalida!\n");
+                printf("\nOpcao invalida!\n");
         }
         printf("\n\n");
     } while (opcao != 0);
@@ -240,6 +284,10 @@ void menu(No** raiz) {
 
 void dBinsert(No** arvore) {
 
+    insereFolha(arvore, 20);
+    insereFolha(arvore, 30);
+    insereFolha(arvore, 10);
+    insereFolha(arvore, 40);
     insereFolha(arvore, 22);
     insereFolha(arvore, 27);
     insereFolha(arvore, 40);
