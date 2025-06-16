@@ -79,6 +79,10 @@ void insereFolha(No** raiz, int valor){
 
     while (aux != NULL){
         pai = aux;
+        if (valor == aux->valor) {
+            printf("Valor ja existe na arvore.\n");
+            return;
+        }
         if (valor < aux->valor){
             aux = aux->esq;
         }
@@ -169,7 +173,6 @@ void menu(No** raiz) {
     int valor;
     char tipo;
     int soma;
-    int bool;
 
     do
     {
@@ -202,8 +205,7 @@ void menu(No** raiz) {
             case 3:
                 printf("\nDigite um valor a ser encontrado: ");
                 scanf("%d", &valor);
-                bool = pesquisaFolha(*raiz, valor);
-                if(bool) {
+                if(pesquisaFolha(*raiz, valor)) {
                     printf("Valor %d encontrado na arvore.", valor);
                 } else {
                     printf("Valor %d nao encontrado na arvore.", valor);
