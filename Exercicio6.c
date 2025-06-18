@@ -74,6 +74,13 @@ void enfileira(Lista **nodo, float n)
     return;
 }
 
+float desenfileira(Lista **nodo){
+    Fila *aux;
+    aux=(*nodo)->inicio;
+    (*nodo)->inicio=aux->prox;
+    free(aux);
+    }
+
 void desenfileira(Fila **nodo) /// nao funciona (testar)
 {
     Fila *temp = *nodo;
